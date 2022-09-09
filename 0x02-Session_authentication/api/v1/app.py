@@ -2,13 +2,12 @@
 """
 Route module for the API
 """
-import os
 from os import getenv
-
-from flask import Flask, abort, jsonify, request
-from flask_cors import CORS, cross_origin
-
 from api.v1.views import app_views
+from flask import Flask, jsonify, abort, request
+from flask_cors import CORS, cross_origin
+import os
+
 
 app = Flask(__name__)
 app.config["JSONIFY_PRETTYPRINT_REGULAR"] = True
@@ -38,33 +37,25 @@ if AUTH_TYPE == "session_exp_auth":
 
 @app.errorhandler(404)
 def not_found(error) -> str:
-    """
-    Not found handler
-    """
+    """Not found handler"""
     return jsonify({"error": "Not found"}), 404
 
 
 @app.errorhandler(401)
 def error_unauthorized(error) -> str:
-    """
-    error handler unauthorized
-    """
+    """error handler unauthorized"""
     return jsonify({"error": "Unauthorized"}), 401
 
 
 @app.errorhandler(403)
 def error_forbidden(error) -> str:
-    """
-    error handler unauthorized
-    """
+    """error handler unauthorized"""
     return jsonify({"error": "Forbidden"}), 403
 
 
 @app.before_request
 def before_request() -> str:
-    """
-    Method before_request
-    """
+    """Method before_request"""
     url_path = [
         "/api/v1/status/",
         "/api/v1/unauthorized/",

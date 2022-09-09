@@ -1,21 +1,15 @@
 #!/usr/bin/env python3
-"""
-User module
+""" User module
 """
 import hashlib
-
 from models.base import Base
 
 
 class User(Base):
-    """
-    User class
-    """
+    """User class"""
 
     def __init__(self, *args: list, **kwargs: dict):
-        """
-        Initialize a User instance
-        """
+        """Initialize a User instance"""
         super().__init__(*args, **kwargs)
         self.email = kwargs.get("email")
         self._password = kwargs.get("_password")
@@ -24,25 +18,19 @@ class User(Base):
 
     @property
     def password(self) -> str:
-        """
-        Getter of the password
-        """
+        """Getter of the password"""
         return self._password
 
     @password.setter
     def password(self, pwd: str):
-        """
-        Setter of a new password: encrypt in SHA256
-        """
+        """Setter of a new password: encrypt in SHA256"""
         if pwd is None or type(pwd) is not str:
             self._password = None
         else:
             self._password = hashlib.sha256(pwd.encode()).hexdigest().lower()
 
     def is_valid_password(self, pwd: str) -> bool:
-        """
-        Validate a password
-        """
+        """Validate a password"""
         if pwd is None or type(pwd) is not str:
             return False
         if self.password is None:
@@ -51,10 +39,12 @@ class User(Base):
         return hashlib.sha256(pwd_e).hexdigest().lower() == self.password
 
     def display_name(self) -> str:
-        """
-        Display User name based on email/first_name/last_name
-        """
-        if self.email is None and self.first_name is None and self.last_name is None:
+        """Display User name based on email/first_name/last_name"""
+        chk1 = self.email is None
+        chk2 = self.first_name is None
+        chk3 = self.last_name is None
+
+        if chk1 is None and chk2 is None and chk3 is None:
             return ""
         if self.first_name is None and self.last_name is None:
             return "{}".format(self.email)

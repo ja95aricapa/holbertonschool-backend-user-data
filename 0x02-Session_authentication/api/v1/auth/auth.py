@@ -1,25 +1,19 @@
 #!/usr/bin/env python3
 """Module of class auth"""
-from os import getenv
+from flask import request, make_response
 from typing import List, TypeVar
-
-from flask import make_response, request
+from os import getenv
 
 
 class Auth:
-    """
-    class Auth
-    """
+    """class Auth"""
 
     def __init__(self):
-        """
-        method constructor
-        """
+        """method constructor"""
         pass
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        """
-        public method require_auth
+        """public method require_auth
 
         Returns:
             False or True
@@ -37,8 +31,7 @@ class Auth:
         return True
 
     def authorization_header(self, request=None) -> str:
-        """
-        public method authorization_header
+        """public method authorization_header
 
         Returns:
             None
@@ -48,8 +41,7 @@ class Auth:
         return request.headers.get("Authorization", None)
 
     def current_user(self, request=None) -> TypeVar("User"):
-        """
-        public method current_user
+        """public method current_user
 
         Returns:
             None
@@ -57,9 +49,7 @@ class Auth:
         return None
 
     def session_cookie(self, request=None) -> str:
-        """
-        public method session_cookie
-        """
+        """public method session_cookie"""
         if request is None:
             return None
         name_cookie = getenv("SESSION_NAME")

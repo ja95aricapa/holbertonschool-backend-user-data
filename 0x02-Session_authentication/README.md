@@ -1,4 +1,4 @@
-# 0x07. Session authentication
+0x07. Session authentication
 ===
 Background Context
 ---

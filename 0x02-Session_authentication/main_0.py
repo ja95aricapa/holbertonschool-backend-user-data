@@ -2,7 +2,6 @@
 """ Main 0
 """
 import base64
-
 from api.v1.auth.basic_auth import BasicAuth
 from models.user import User
 
