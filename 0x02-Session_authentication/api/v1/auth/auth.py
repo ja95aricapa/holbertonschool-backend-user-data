@@ -1,56 +1,59 @@
 #!/usr/bin/env python3
-"""Module of class auth"""
-from flask import request, make_response
+""" Auth module
+"""
+from flask import request
 from typing import List, TypeVar
-from os import getenv
+import os
 
 
-class Auth:
-    """class Auth"""
-
-    def __init__(self):
-        """method constructor"""
-        pass
+class Auth():
+    """
+    Auth class
+    """
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        """public method require_auth
-
-        Returns:
-            False or True
         """
+        require_auth function
+        """
+        if excluded_paths is None or excluded_paths == '':
+            return True
+        if path is not None:
+            if path[len(path) - 1] is not '/':
+                path += '/'
         if path is None:
             return True
-        if excluded_paths is None or len(excluded_paths) == 0:
-            return True
-        if path[-1] != "/":
-            path += "/"
-        if excluded_paths[-1] != "/":
-            excluded_paths += "/"
-        if path in excluded_paths:
-            return False
+        for item in excluded_paths:
+            asterisk = item.find("*")
+            if asterisk != -1 and len(path) >= len(item):
+                pathcpy = path[: asterisk]
+                if pathcpy == item[: asterisk]:
+                    return False
+            elif path == item:
+                return False
         return True
+        # if path is None or path not in excluded_paths:
+        # return True
+        # return False
 
     def authorization_header(self, request=None) -> str:
-        """public method authorization_header
-
-        Returns:
-            None
+        """
+        authorization_header function
         """
         if request is None:
             return None
-        return request.headers.get("Authorization", None)
+        return request.headers.get('Authorization')
 
-    def current_user(self, request=None) -> TypeVar("User"):
-        """public method current_user
-
-        Returns:
-            None
+    def current_user(self, request=None) -> TypeVar('User'):
+        """
+        current_user function
         """
         return None
 
-    def session_cookie(self, request=None) -> str:
-        """public method session_cookie"""
+    def session_cookie(self, request=None):
+        """
+        session_cookie function
+        """
         if request is None:
             return None
-        name_cookie = getenv("SESSION_NAME")
-        return request.cookies.get(name_cookie)
+        name_var = os.getenv('SESSION_NAME')
+        return request.cookies.get(name_var)
